@@ -1,0 +1,15 @@
+<mat-card class="bg-light animated fast" *ngIf="loadCompleted">
+        <mat-card-title class="titulo-seccion-principal">
+          AFILIATE
+        </mat-card-title>    
+</mat-card>
+
+
+<app-registry-membership (loadCompleted)="setLoadCompleted( $event )"></app-registry-membership>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>
+
+
+
+
+

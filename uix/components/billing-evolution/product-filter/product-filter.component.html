@@ -1,0 +1,118 @@
+<mat-card class="bg-light  animated fast" *ngIf="loadCompletedHere">
+  <mat-card-title class="title-blue-background">
+    Seleccione Producto
+  </mat-card-title>
+  <mat-card-content>
+    <form class="form" #form="ngForm">
+      <mat-form-field class="form-full-width">
+        <mat-select placeholder="Seleccione un Producto" [(ngModel)]="dataFilter.productId" name="productId"
+          (selectionChange)="onServiceSelect (dataFilter.productId)">
+          <mat-option *ngFor="let product of products" [value]="product.productId" required>
+            {{ product.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-full-width">
+        <mat-select placeholder="Seleccione un Negocio" [(ngModel)]="dataFilter.businessId" name="businessId"
+          #businessId="ngModel">
+          <mat-option *ngFor="let business of business" [value]="business.businessId" required>
+            {{ business.businessId }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br><label class="label1">
+        <app-locate-business class="locate-business"></app-locate-business>
+      </label><br>
+      <button mat-raised-button class="btn btn-warning but" type="reset" (click)="onClick()"> Limpiar </button>
+      <button mat-raised-button class="btn btn-warning but" type="submit" [disabled]="!form.valid" (click)="getTotalInvoiceByProduct()">
+        Mostrar
+      </button>
+    </form>
+  </mat-card-content>
+  <mat-card-footer>
+  <!--  <div *ngIf="msg" class="alert alert-warning alert-dismissible fade show" role="alert" align="center" >
+<strong>{{ msg }}</strong>
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>-->
+
+    <div *ngIf="msg" class="alert alert-warning" role="alert" align="center">
+      <strong>{{ msg }}</strong>
+    </div>
+
+
+
+
+  </mat-card-footer>
+</mat-card>
+<br>
+
+
+<div *ngIf="viewChart">
+  <mat-card class="bg-light">
+    <mat-card-title class="title-blue-background">
+      {{productDescription}}
+    </mat-card-title>
+    <mat-card-content>
+      <div class="col-lg-12 row" style="margin-top:2em">
+        <canvas baseChart width="250" height="70" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+          [colors]="chartColors" [legend]="barChartLegend" [chartType]="barChartType" (chartClick)="chartClicked($event)"></canvas>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="animated fast" *ngIf="loadCompletedHere">
+  <div *ngIf="!viewChart">
+    <mat-card class="bg-light">
+      <mat-card-content>
+        <div class="col-lg-12 row" style="margin-top:2em">
+          <canvas baseChart width="250" height="70" [options]="barChartOptions" [datasets]="barChartData" [labels]="barChartLabels"
+            [colors]="chartColors" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>
+<!-- Modal-->
+<div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="titulo-seccion-principal" id="myModalLabel">DOCUMENTOS MES {{monthString | uppercase}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="mensajeError" style=" padding-left: 3%">{{ errorExport }}</div>
+      <div class="modal-body">
+        <div class=" list" *ngFor="let list of list" style="background: rgb(202, 202, 202); color: black; padding-left: 3%; padding-top: 1%;"
+          align="left">
+          <p style="color: #219CCE;font-weight: bold;">s/ {{ list.totalAmount }}</p>
+          <div class="row">
+            <div class="col-3" style="font-weight: bold;">
+              <p>Documento:</p>
+              <p>Vence el:</p>
+            </div>
+            <div class="col-6" style="font-weight: bold;">
+              <p>{{ list.invoiceSpeed }}</p>
+              <p>{{ list.expirationDate }}</p>
+            </div>
+            <div class="col-3" align="center">
+              <td style="cursor:pointer" (click)="ExportFile(list.invoiceId,list.invoiceSpeed)">
+                <i style="font-size: 40px" class="fa pdf fa-file-pdf-o" aria-hidden="false"> </i>
+              </td>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-warning salir" data-dismiss="modal"> Salir </button>
+      </div>
+    </div>
+  </div>
+</div>

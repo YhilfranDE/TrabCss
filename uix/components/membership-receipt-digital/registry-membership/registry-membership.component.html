@@ -1,0 +1,114 @@
+<mat-card class="bg-light animated fast" *ngIf="loadCompletedHere">
+  <mat-card-title class="title-blue-background">
+    AFILIARSE AL RECIBO DIGITAL
+  </mat-card-title>
+  <mat-card-content>
+    <br>
+    <mat-card-title>Para registrarse siga los siguientes pasos:</mat-card-title>
+    <br>
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel> Paso 1</ng-template>
+          <mat-form-field class="input-full-width  input-disable-info">
+            <input matInput placeholder="Tipo de documento" value="{{data.contactDocumentType}}" disabled>
+          </mat-form-field>
+          <mat-form-field class="input-full-width  input-disable-info">
+            <input matInput placeholder="Numero de documento" value="{{data.contactDocumentNumber}}" disabled>
+          </mat-form-field>
+          <mat-form-field class="input-full-width input-disable-info">
+            <input matInput placeholder="Nombres y Apellido" value="{{data.contactName}}" disabled>
+          </mat-form-field>
+          <mat-form-field class="input-full-width input-disable-info">
+            <input matInput placeholder="Teléfono del Usuario" value="{{data.contactPhone}}" disabled>
+          </mat-form-field>
+          <mat-form-field class="input-full-width input-disable-info">
+            <input matInput placeholder="Correo electrónico" value="{{data.contactEmail}}" disabled>
+          </mat-form-field>
+          <br>
+          <br>
+
+          <mat-checkbox style="margin-right: 1em" formControlName="CheckAutorizo" required>
+            <strong>Autorizo</strong> afiliación de recibo digital
+          </mat-checkbox>
+
+          <mat-checkbox formControlName="emailNotificacion" required>
+            <strong>Autorizo</strong>
+            registro de contacto autorizado
+          </mat-checkbox>
+          <div>
+            <br>
+            <button [disabled]="firstFormGroup.controls.CheckAutorizo.invalid || firstFormGroup.controls.emailNotificacion.invalid" class="btn btn-warning btn-block"
+              (click)="goStepTwo(stepper)"> Siguiente </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel> Paso 2</ng-template>
+        <mat-card-subtitle style="text-align:center; font-size: 16px">
+          <span>Descargar y completar la solicitud de afilicación a recibo digital y contácto autorizado</span>
+          <br>
+          <a class="btn" href="./assets/AF150000001.pdf" download="Solicitud">
+            Descargar Aquí</a>
+        </mat-card-subtitle>
+        <div>
+          <button mat-button class="btn btn-warning btn-block" (click)="goStepThree(stepper)"> Siguiente</button>
+        </div>
+        <!--  </form>-->
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel> Paso 3</ng-template>
+        <mat-card class="bg-light">
+          <span>Adjuntar los siguientes documentos</span>
+          <ul>
+            <li>Formato de recibo digital y contácto autorizado</li>
+            <li>Copia del Doc. de identidad del representante legal</li>
+          </ul>
+        </mat-card>
+        <br>
+        <div *ngIf="notPdf" class="alert alert-danger" role="alert" align="center">
+          <strong>{{notPdf}}</strong>
+        </div>
+
+        <br>
+        <br>
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Paso 3 </ng-template>
+          <input (change)="selectImage($event.target.files[0])" type="file" formControlName="fileUpload" required>
+          <div>
+            <br>
+            <button mat-button class="btn-block" (click)="stepper.reset()">Reiniciar Proceso</button>
+
+            <button *ngIf="fileValid" mat-button class="btn btn-warning btn-block" [disabled]="secondFormGroup.controls.fileUpload.invalid"
+              (click)="registerInvoiceDigital()">Generar Solicitud</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</mat-card>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>
+<!-- Modal-->
+<div class="modal fade" style="padding-top:10%" id="viewmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success" role="alert">
+          <p style="font-size:22px;text-align:center"> Se ha generado el Ticket Nro: 9874651231<br> Para mayor información
+            comunicarse al 0800 77 500</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-warning salir" data-dismiss="modal"> Salir </button>
+      </div>
+    </div>
+  </div>
+</div>

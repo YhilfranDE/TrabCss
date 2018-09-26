@@ -1,0 +1,130 @@
+<mat-card class="bg-light animated fast" *ngIf="loadCompletedHere">
+  <mat-card-title class="title-blue-background">
+    Filtros de Búsqueda
+  </mat-card-title>
+  <mat-card-content>
+    <form class="form" #form="ngForm">
+      <mat-form-field class="form-full-width">
+        <mat-select placeholder="Seleccione un Negocio" [(ngModel)]="dataFilter.businessId" name="businessId"
+          #businessId="ngModel">
+          <mat-option *ngFor="let business of business" [value]="business.businessId" required>
+            {{ business.businessId }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-full-width">
+        <mat-select placeholder="Tipo de Documento" [(ngModel)]="dataFilter.invoiceTypeId" name="invoiceTypeId"
+          #invoiceTypeId="ngModel">
+          <mat-option *ngFor="let docType of docTypes" [value]="docType.invoiceTypeId" required>
+            {{ docType.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field><br>
+      <label class="label1">
+        <app-locate-business class="locate-business"></app-locate-business>
+      </label><br>
+      <button mat-raised-button class="btn btn-warning but" type="reset" (click)="onClick()"> Limpiar </button>
+      <button mat-raised-button class="btn btn-warning but" type="submit" [disabled]="!form.valid" (click)="searchFilter()">
+        Buscar</button>
+    </form>
+  </mat-card-content>
+  <mat-card-footer>
+    <div class="mensajeError">{{ errorDoc }}</div>
+    <div *ngIf="errorBussines" class="mensajeError">{{ errorBussines }}</div>
+
+
+    <!--<div *ngIf="errorFilter" class="alert alert-warning alert-dismissible fade show"  align="center" role="alert">
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+<strong> {{ errorFilter }}</strong>
+</div>-->
+
+    <div *ngIf="errorFilter" class="alert alert-warning" role="alert" align="center">
+      <strong>{{errorFilter}}</strong>
+    </div>
+
+
+  </mat-card-footer>
+</mat-card>
+<br>
+
+
+<mat-card class="bg-light" *ngIf="viewTable">
+  <mat-card-content>
+
+    <div class="row">
+      <label class="col-lg-4 title-blue-background">Listado de Documentos</label>
+
+      <div class="col-8"></div>
+      <div class="col-8"></div>
+      <div *ngIf="pagination" class="col-lg-3 iconos-exportar">
+        <label class="exportar">Exportar en:</label>
+        <i (click)="exportList('pdf')"  class="fa fa-file-pdf-o text-orange font-size200" aria-hidden="false"> </i>
+        <i (click)="exportList('xls')"  class="fa fa-file-excel-o text-orange font-size200" aria-hidden="false"> </i>
+      </div>
+
+      <div class="table-responsive" style="padding: 1%">
+
+        <div *ngIf="errorExport" class="alert alert-danger" role="alert" align="center">
+          {{errorExport}}
+        </div>
+
+
+        <div *ngIf="dowloadValid" class="alert alert-danger" role="alert" align="center">
+          <strong>{{dowloadValid}}</strong>
+        </div>
+
+        <table class="table table-striped table-condensed">
+          <thead class="tabla-titulo" align="center">
+            <tr style="font-size:12px">
+
+              <th scope="col">Número</th>
+              <th scope="col">Documento</th>
+              <th scope="col">Tipo Documento</th>
+              <th scope="col">Emisión</th>
+              <th scope="col">Vencimiento</th>
+              <th scope="col">Moneda</th>
+              <th scope="col">Total Deuda</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Negocio</th>
+              <th scope="col">Estado</th>
+              <th scope="col"> </th>
+            </tr>
+          </thead>
+          <tbody align="center">
+            <tr *ngFor="let data of list | paginate:{currentPage: p, itemsPerPage:4 }">
+              <td>{{data.index}}</td>
+              <td>{{data.invoiceSpeed}}</td>
+              <td>{{data.invoiceTypeDescription}}</td>
+              <td>{{data.dateOfEmitted }}</td>
+              <td>{{data.expirationDate}}</td>
+              <td>{{data.currencyCurrencyRep}}</td>
+              <td>{{data.totalAmount}}</td>
+              <td>{{data.productDescription}}</td>
+              <td>{{data.businessBusinessId}}</td>
+              <td>{{data.status}}</td>
+              <td style="cursor:pointer" (click)="exportFile(data.invoiceId,data.invoiceSpeed)">
+                <i class="fa fa-file-pdf-o" aria-hidden="false"> </i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="pagination" class="row col-lg-12" style="margin-left: 1%">
+          <div class="col-6"> </div>
+          <nav aria-label="Page navigation" style="padding-left: 0%">
+            <ul>
+              <pagination-controls class="pagination" (pageChange)="p =$event" responsive="true" previousLabel="Anterior"
+                nextLabel="Siguiente" autoHide="true">
+              </pagination-controls>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

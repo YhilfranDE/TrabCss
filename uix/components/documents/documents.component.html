@@ -1,0 +1,25 @@
+<mat-card class="bg-light  animated fast" *ngIf="loadCompleted" >
+    <mat-card-title class="titulo-seccion-principal">
+        MIS DOCUMENTOS
+    </mat-card-title>
+    <mat-card-content>
+        <form class="example-form input-disable-info">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Razon Social" value="{{ datos.customerName }}" disabled>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="RUC" value="{{ datos.customerDocumentNumber }}" disabled>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-footer>
+        <div class="mensajeError">{{msg}}</div>
+    </mat-card-footer>
+</mat-card><br>
+
+<app-document-list  (loadCompleted)="setLoadCompleted( $event )" #lista class="listado"></app-document-list>
+<div class="final animated fast" *ngIf="loadCompleted">
+    * Los Documentos mostrados corresponden a los ultimos 6 meses
+    <br>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

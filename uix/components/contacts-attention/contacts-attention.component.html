@@ -1,0 +1,35 @@
+<mat-card class="bg-light animated fast" *ngIf="loadCompleted"> 
+    <div *ngIf="!errorMessage" >
+            <mat-card-title class="titulo-seccion-principal">
+                    CONTACTOS DE ATENCIÓN
+                </mat-card-title>
+            
+        <div *ngFor="let info of contact">
+        <mat-card-title class="title-blue-background">
+            {{info.type}}
+        </mat-card-title>
+        <mat-card-content>
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="NOMBRE" value=" {{ info.name }} {{ info.firstLastName }}  {{info.secondLastName}} " style="color: #4EB0F4" disabled>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="CORREO" value="{{ info.email }}" style="color: #4EB0F4" disabled>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="TELEFONO" value="{{ info.phoneNumber}}" style="color: #4EB0F4" disabled>
+                </mat-form-field>
+            </form>
+        </mat-card-content>
+    </div>
+</div>
+
+<mat-card-content *ngIf="errorMessage">
+    <div class="alert alert-warning" role="alert" align="center">
+        {{errorMessage}}
+    </div>
+</mat-card-content>
+
+</mat-card>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

@@ -1,0 +1,34 @@
+<mat-card class="bg-light animated fast" *ngIf="loadCompletedHere"  >
+  <mat-card-title class="titulo-seccion-principal">
+    MIS DATOS
+  </mat-card-title>
+  <mat-card-content>
+    <form class="example-form input-disable-info">
+      <mat-form-field class="example-full-width" *ngIf="datos.customerDocumentType == 'RUC'">
+        <input matInput placeholder="RUC" value="{{ datos.customerDocumentNumber }}" style="color: #4EB0F4" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" *ngIf="datos.customerDocumentType == 'DNI'">
+        <input matInput placeholder="DNI" value="{{ datos.customerDocumentNumber }}" style="color: #4EB0F4" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Razon Social" value="{{ datos.customerName }}" style="color: #4EB0F4" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="{{datos.contactDocumentType}} del Contacto" value="{{ datos.contactDocumentNumber }}" style="color: #4EB0F4" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Nombre Completo" value="{{ datos.contactName }}" style="color: #4EB0F4" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Correo Registrado" value="{{ datos.contactEmail }}" style="color: #4EB0F4" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="No Telefónico" value="{{ datos.contactPhone }}" style="color: #4EB0F4" disabled>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-footer>
+    {{msg}}
+  </mat-card-footer>
+</mat-card>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

@@ -1,0 +1,29 @@
+<div *ngIf="errorChecksession" class="alert alert-danger alert-dismissible fade show" role="alert" align="center">
+  <strong> {{ errorChecksession }}</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="div-1">
+  <mat-card>
+    <mat-card-title>
+      <button mat-raised-button class="opc-1" id="opcion1" (click)="onClickMe('empresa')">
+        <mat-icon>home</mat-icon> CUENTA EMPRESAS </button>
+      <button mat-raised-button class="opc-2" id="opcion2" (click)="onClickMe('persona')">
+        <mat-icon> business_center </mat-icon> CUENTA PERSONAS </button>
+    </mat-card-title>
+    <mat-card-content>
+      <app-login-organization (errorLogin)="clearErrorCheckSession( $event )" *ngIf="empresa"></app-login-organization>
+      <app-login-person (errorLogin)="clearErrorCheckSession( $event )" *ngIf="!empresa"></app-login-person>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="div-2">
+  <mat-card>
+    <img mat-card-image src="../../../../assets/banner.png">
+  </mat-card>
+</div>
+<footer>
+  <p align="center">Podrás conocer tus deudas, facturación y afiliarte al recibo digital</p>
+</footer>

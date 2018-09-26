@@ -1,0 +1,13 @@
+<!--Card-->
+<div *ngIf="loadCompletedHere">
+  <div class="card row-menu-lateral" *ngFor="let p of menuLateral">
+    <h5 class="card-header card-header-rs">{{p.title}}</h5>
+    <div class="card-body card-body-rs">
+      <p class="card-text">
+        <span routerLinkActive="active" [routerLink]="[(t.path)] " *ngFor="let t of p.options">
+          {{t.title}} <br></span>
+      </p>
+    </div>
+  </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

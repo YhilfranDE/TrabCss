@@ -1,0 +1,158 @@
+<mat-horizontal-stepper style="width: 90%; margin-left: 6%; margin-top: 2%;" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Datos de la Empresa</ng-template>
+      <mat-card class="form-pd-bt-65">
+        <mat-card-title class="color">
+          REGISTRO DE EMPRESA
+        </mat-card-title>
+        <mat-card-header style="float:right;">
+          ¿Ya está regístrado?
+          <a [routerLink]="['/']"> Ingrese Aquí</a>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field class="input-full-width">
+            <input matInput type="text" placeholder="RUC" formControlName="customerDocumentNumber" [(ngModel)]="data.customerDocumentNumber"
+              minlength="11" maxlength="11" pattern="[0-9]{1,11}" required>        
+
+            <mat-error *ngIf="firstFormGroup.controls.customerDocumentNumber.errors?.required"> Campo Requerido </mat-error>
+            <mat-error *ngIf="firstFormGroup.controls.customerDocumentNumber.errors?.pattern">
+               RUC debe ser num&eacute;rico.
+              </mat-error>
+            <mat-hint  style="color: #4eb0f4"
+             *ngIf="!firstFormGroup.controls.customerDocumentNumber.errors?.pattern &&
+             firstFormGroup.controls.customerDocumentNumber.errors?.minlength ">
+                RUC debe tener 11 d&iacute;gitos num&eacute;ricos.
+            </mat-hint>
+          </mat-form-field>
+
+          <div class="form-group recaptcha" style="transform: scale (0.77);-webkit-transform: scale (0.77); transform-origin: 0 0; -webkit-transform-origin: 0 0; ">
+            <re-captcha style=" padding-bottom: 2em;" ng-model="g-recaptcha-response" class="g-recaptcha" data-siteKey="6LetDmcUAAAAALutuOlLrIBBYfiCoAeDia-kHz5I"></re-captcha>
+            <span class="mensajeError"> {{ errormsg }} </span>
+          </div>
+          
+          INGRESE EL RUC CON EL QUE CONTRATO EL SERVICIO EN AMERICATEL
+          <br>
+          <p style="color:rgb(34, 154, 197); padding-top: 2%;">
+            Recuerde que para que puedas tener una cuenta web debe ser contacto autorizado o titular del servicio
+          </p>
+          <div *ngIf="isError" class="mensajeError">
+            <label>{{errorMessage}}</label>
+          </div>
+
+          <mat-form-field style="display:none">
+            <input matInput type="text" formControlName="stepOneControl" [(ngModel)]="stepOneControl" required>
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+          <a style="margin-top: 1%" mat-raised-button class="btn btn-secondary but" (click)="onClick()"> Cancelar </a>
+          <button style="margin-top: 1%" mat-raised-button class="btn btn-warning but" [disabled]="firstFormGroup.controls.customerDocumentNumber.invalid" 
+          (click)="goSecondStep(stepper, data.customerDocumentNumber)">Siguiente
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </mat-step>
+
+
+  <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Datos del Representante Legal</ng-template>
+      <mat-card class="form-pd-bt-65">
+        <mat-card-title class="color">
+          REGISTRO DE EMPRESA
+        </mat-card-title>
+        <mat-card-content>
+
+          <mat-form-field class="input-full-width">
+            <mat-select placeholder="Tipo de Documento" formControlName="documentType" [(ngModel)]="data.documentType" (ngModelChange)="changeTypeDoc($event)">
+              <mat-option *ngFor="let types of documentTypes" [value]=" types.name">
+                  {{types.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="input-full-width">
+            <input matInput type="text" [placeholder]="placeholderDocument" formControlName="representativeDocumentNumber" [(ngModel)]="data.representativeDocumentNumber"
+              [minlength]="minlengthDocument" [maxlength]="maxlengthDocument" [pattern]="patterDocument">              
+         
+            
+              <mat-error *ngIf="secondFormGroup.controls.representativeDocumentNumber.errors?.required"> {{textDocument}} es requerido. </mat-error>
+
+              <mat-error *ngIf="secondFormGroup.controls.representativeDocumentNumber.errors?.pattern">
+                  {{textDocument}}  debe ser {{typeData}} de {{maxlengthDocument}} caracteres.
+                </mat-error>
+  
+            </mat-form-field>        
+
+
+          <mat-form-field class="input-full-width">
+            <input matInput type="text" placeholder="Correo Registrado" type="email" formControlName="representativeEmail" [(ngModel)]="data.representativeEmail"
+              maxlength="50" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+           
+           
+              <mat-error *ngIf="secondFormGroup.controls.representativeEmail.errors?.required"> Campo Requerido </mat-error>
+
+              <mat-error  style="color:#4eb0f4" *ngIf="secondFormGroup.controls.representativeEmail.errors?.pattern">
+                  Correo debe ser: ejemplo@ejemplo.com
+                </mat-error>
+  
+       
+            </mat-form-field>
+           
+          <p style="color:rgb(34, 154, 197); padding-top: 2%;">
+            Recuerde que al comunicarse con nuestro canal de atenci&oacute;n, debe ingresar su DNI para una atenci&oacute;n personalizada
+          </p>
+          <div *ngIf="isError" class="mensajeError">
+            <label>{{errorMessage}}</label>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <mat-form-field style="display:none">
+            <input matInput type="text" formControlName="stepTwoControl" [(ngModel)]="stepTwoControl" required>
+          </mat-form-field>
+
+
+          <button mat-raised-button style="margin-top: 1%" type="button" class="btn btn-secondary but" [routerLink]="['/']">Cancelar</button>
+          <button mat-raised-button style="margin-top: 1%" type="submit" class="btn btn-warning but" [disabled]=" 
+secondFormGroup.controls.representativeEmail.invalid || secondFormGroup.controls.representativeDocumentNumber.invalid"
+            (click)="goThirdStep(stepper)">Siguiente</button>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Registrado Correctamente</ng-template>
+    <mat-card class="bottom-75">
+      <mat-card-title class="color">
+        REGISTRO DE EMPRESA
+      </mat-card-title>
+      <mat-card-content align="center">
+        <mat-card class="alert-success" align="center">
+          REGISTRADO CORRECTAMENTE
+          <mat-icon>check_circle_outline</mat-icon>
+        </mat-card>
+        <mat-card align="center">
+          <p>La contraseña de acceso ha sido enviada</p>
+          <mat-icon>mail_outline</mat-icon>
+          <p>
+            <br>Se envió un mensaje al correo electrónico {{ data['representativeEmail'] }}
+            <br> Sigue las instrucciones detalladas en el correo para acceder a tu cuenta
+          </p>
+        </mat-card>
+        <span (click)="recuperarEmpresa()" style="cursor:pointer;color:dodgerblue">
+          <mat-icon>reply</mat-icon>
+          Reenviar contraseña
+        </span>
+        <br>
+        <div *ngIf="isError" class="mensajeError">
+          <label>{{errorMessage}}</label>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-raised-button style="margin-top: 1%" type="button" class="btn btn-warning but" [routerLink]="['/']">Finalizar</button>
+      </mat-card-content>
+    </mat-card>
+  </mat-step>
+</mat-horizontal-stepper>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

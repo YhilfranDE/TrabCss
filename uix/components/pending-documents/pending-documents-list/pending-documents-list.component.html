@@ -1,0 +1,51 @@
+<mat-card class="bg-light pending" *ngIf="!isLoginError && isProduct">
+  <mat-card-content>
+    <div class="div-1-2">
+      <mat-card class="alert-danger">
+        <p align="center">Tu Producto Contratado tiene {{ totalDoc }} Pagos Pendientes</p>
+        <img class="img-sobre" mat-card-image src="../../../../assets/sobre.png">
+      </mat-card>
+      <app-claim-documents-list #pending [product]="claim" id="claim"></app-claim-documents-list>
+    </div>
+    <div class="div-2">
+      <mat-card-content *ngFor="let list of list">
+        <form class="form-width-80 input-disable-info">
+          <mat-form-field class="form-full-width-70">
+            <input matInput placeholder="" value="{{list.currencyCurrencyRep}} {{ list.totalAmount }}" style="color: #4EB0F4" disabled>
+          </mat-form-field>
+          <mat-icon class="pdf" style="cursor:pointer" (click)="DownloadInvoice(list.invoiceId, list.invoiceSpeed)">
+            picture_as_pdf
+         </mat-icon>
+          <mat-form-field class="form-full-width-70">
+            <input matInput placeholder="Documento" value="{{ list.invoiceSpeed }}" disabled>
+          </mat-form-field>
+          <mat-form-field class="form-full-width-70">
+            <input matInput placeholder="Vence" value="{{ list.expirationDate }}" disabled>
+          </mat-form-field>         
+        </form>
+      </mat-card-content> 
+     <!-- <div class="mensajeError"> {{errorExport}} </div>-->
+      <div *ngIf="errorExport" class="alert alert-danger" role="alert" align="center">
+       {{errorExport}}
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+    <div class="mensajeError" style=" padding-left: 3%">{{ errorMessage1 }}</div>
+  </mat-card-footer>
+</mat-card>
+
+<mat-card class="bg-light" *ngIf="isLoginError && !isProduct">
+  <mat-card-content>
+    <mat-grid-list cols="1" rowHeight="20em">
+      <mat-grid-tile>
+        <mat-card class="alert-success">
+          <p align="center">{{msg}}</p>
+          <img class="img-sobre" mat-card-image src="../../../../assets/sobre.png">
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+
+</mat-card>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

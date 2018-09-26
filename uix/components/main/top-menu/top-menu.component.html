@@ -1,0 +1,76 @@
+<div class="col-navbar" >
+  <div class="row offset-sm-6">
+    <div class="col-sm-5"  >
+      
+      </div>
+
+      <div class="col-sm-5"  >
+      
+      </div>
+
+  </div>
+  </div>  
+  
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-color">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <a class="navbar-brand abs" href="#" ><img src="../../../../assets/logo.png" class="img-rounded"
+     alt="logo" width="180px" height="50px"></a>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+  
+   <ul class="navbar-nav menu-lateral-responsive" >
+		<li class="nav-item dropdown" *ngFor="let p of menuLateral">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+		aria-haspopup="true" aria-expanded="false" >
+        {{p.title}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown"  >
+          <a class="dropdown-item" [routerLink]="[(t.path)]" *ngFor="let t of p.options" >{{t.title}}</a>          
+        </div>
+      </li>	
+      </ul>  
+ 
+  
+  </div>
+
+<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+  
+   <ul class="navbar-nav ml-auto" style="float:right;">
+            <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" 
+		  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <fa name="user" > </fa> {{ datos.contactName }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" (click)="misDatos()" style="cursor: pointer;">Mis Datos</a>         
+			<a class="dropdown-item" (click)="cambiarPassword()" style="cursor: pointer;">Cambiar Contraseña</a>
+            <a class="dropdown-item" (click)="cerrarSesion()" style="cursor: pointer;">Cerrar Sesión</a>
+          </div>
+            </li>
+        </ul>
+  
+  </div>
+<!--mat-toolbar>
+  <mat-toolbar-row class="demo-pannel"></mat-toolbar-row>
+  <mat-toolbar-row class="demo-pannel1">
+    <img src="../../../../assets/logo.png" class="img-rounded" alt="logo" width="180px" height="50px">
+  </mat-toolbar-row>
+  <mat-toolbar-row class="demo-pannel1">
+    <span class="toolbar-space"></span>
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon>home</mat-icon>
+      {{ datos.contactName }}
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="misDatos()"> Mis Datos </button>
+      <button mat-menu-item (click)="cambiarPassword()"> Cambiar Contraseña </button>
+      <button mat-menu-item (click)="cerrarSesion()"> Cerrar Sesión </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar-->

@@ -1,0 +1,72 @@
+<form class="form-login" #loginForm="ngForm">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Nro. RUC" name="ruc" #ruc="ngModel" [(ngModel)]="data.ruc" placeholder="Nro. RUC" minlength="11"
+      maxlength="11" pattern="[0-9]{1,11}" required>
+    <mat-error *ngIf="ruc.errors?.required"> Campo Obligatorio </mat-error>
+    <mat-error class="mensajeAlerta" *ngIf="ruc.errors?.pattern">
+      RUC debe ser num&eacute;rico.
+    </mat-error>
+    <mat-error class="mensajeAlerta" *ngIf="!ruc.errors?.pattern && ruc.errors?.minlength">
+      RUC debe tener 11 d&iacute;gitos num&eacute;ricos.
+    </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Tipo de Documento" [(ngModel)]="data.documentType" #documentType="ngModel" name="documentType" required>
+      <mat-option *ngFor="let types of documentTypes" [value]="types.name" required>
+        {{ types.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="documentType.value =='DNI'">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Documento Nacional de Indentidad" name="dni" #dni="ngModel" [(ngModel)]="data.dni" minlength="8"
+        maxlength="8" pattern="[0-9]{1,8}" required>
+      <mat-error *ngIf="dni.errors?.required"> Campo Obligatorio </mat-error>
+      <mat-error class="mensajeAlerta" *ngIf="dni.errors?.pattern">
+        DNI debe ser num&eacute;rico.
+      </mat-error>
+      <mat-error class="mensajeAlerta" *ngIf="!dni.errors?.pattern && dni.errors?.minlength">
+        DNI debe tener 8 d&iacute;gitos num&eacute;ricos.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="documentType.value =='CE'">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Carnet de Extranjeria" name="carnet" #carnet="ngModel" [(ngModel)]="data.carnet" minlength="12"
+        maxlength="12" pattern="[a-zA-Z0-9]+" required>
+        
+      <mat-error *ngIf="carnet.errors?.required"> Campo Obligatorio </mat-error>
+      <mat-error class="mensajeError" *ngIf="carnet.errors?.pattern">
+        Carnet debe ser alfanúmerico, sin caracteres especiales.
+      </mat-error>
+      <mat-error class="mensajeAlerta" *ngIf="!carnet.errors?.pattern && carnet.errors?.minlength">
+        Carnet debe tener 12 d&iacute;gitos Alfanumericos.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Contraseña" type="password" name="password" #password="ngModel" [(ngModel)]="data.password"
+      placeholder="Contraseña" minlength="8" maxlength="15" required>
+    <mat-error *ngIf="password.errors?.required"> Campo Obligatorio </mat-error>
+    <mat-error class="mensajeAlerta" *ngIf="password.errors?.minlength">
+      Contrase&ntilde;a debe tener m&iacute;nimo 8 caracteres y m&aacute;ximo 15.
+    </mat-error>
+  </mat-form-field>
+  
+  <div *ngIf="isLoginError" style="text-align:center; " class="mensajeError">
+    <label>{{ errorMessage }}, por favor comunicarse con nuestro canal de atenci&oacute;n.</label>
+  </div>
+  <br><mat-checkbox name="recordarDatos" #recordarDatos="ngModel" [(ngModel)]="data.recordarDatos">Recordar Datos</mat-checkbox><br><br>
+  <a [routerLink]="['/RegistrarUsuarioEmpresa']"> Registrar usuario </a><br>
+  <a [routerLink]="['/ReiniciarContraseñaEmpresa']"> Olvide mi contraseña </a>
+  <button class="btn btn-warning btn-submit but" type="submit" [disabled]="!loginForm.valid" (click)="iniciarSesion(loginForm, data)">
+    Iniciar sesión
+  </button>
+</form>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

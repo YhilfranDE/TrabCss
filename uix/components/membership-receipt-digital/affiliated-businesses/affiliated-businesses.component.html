@@ -1,0 +1,30 @@
+<mat-card-title class="title-blue-background">
+  NEGOCIOS AFILIADOS
+</mat-card-title>
+<mat-card-content>
+
+<mat-card-content *ngIf="errorBussines">
+  <div class="alert alert-warning" role="alert" align="center">
+      {{errorBussines}}
+  </div>
+</mat-card-content> 
+  <table class="table table-striped table-condensed " style="padding: 1%" *ngIf="!errorBussines" > 
+   
+    <thead class="tabla-titulo" align="center">
+      <tr style="font-size:12px" *ngIf="!errorBussines" >
+        <th scope="col">Número</th>
+        <th scope="col">Dirección</th>      
+      </tr>
+    </thead>
+    <tbody align="center">
+      <tr *ngFor="let data of business">
+       
+        <td>{{data.businessId}}</td>
+        <td>{{data.direccion}}</td>       
+       
+      </tr>
+    </tbody>
+  </table>
+</mat-card-content>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>
+

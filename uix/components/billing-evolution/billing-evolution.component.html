@@ -1,0 +1,27 @@
+
+<mat-card class="bg-light animated fast" *ngIf="loadCompleted" >
+  <mat-card-title class="titulo-seccion-principal">
+    EVOLUCIÓN DE FACTURACIÓN
+  </mat-card-title>
+  <mat-card-content>
+    <form class="example-form input-disable-info">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Razon Social" value="{{ data.customerName }}" disabled>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="RUC" value="{{ data.customerDocumentNumber }}" disabled>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-footer>
+    <div *ngIf="msg" class="alert alert-danger" role="alert">
+      {{msg}}
+    </div>
+  </mat-card-footer> 
+</mat-card><br>
+<app-product-filter (loadCompleted)="setLoadCompleted( $event )" ></app-product-filter>
+
+<div class="final animated fast" *ngIf="loadCompleted">
+  <p> * Información histórica de 6 meses.<br> * La Información mostrada tiene un retraso de 24 horas.</p>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>

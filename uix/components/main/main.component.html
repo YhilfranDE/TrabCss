@@ -1,0 +1,9 @@
+﻿<app-top-menu> </app-top-menu>
+<div class="row row-menu-lateral">
+	<div class="col-md-3 options-menu-lateral" style="margin-left:1%; margin-right:1%"  > 
+		<app-left-menu  (loadCompleted)="setLoadCompleted( $event )"> </app-left-menu>
+</div> 
+	<div id="principal"  class="col-sm-7 row-menu-lateral" >
+		<router-outlet> </router-outlet>
+	</div>
+</div>

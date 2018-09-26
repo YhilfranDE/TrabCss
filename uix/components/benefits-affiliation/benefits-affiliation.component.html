@@ -1,0 +1,9 @@
+<mat-card class="bg-light animated fast" *ngIf="loadCompletedHere">
+    <mat-card-title class="titulo-seccion-principal">
+        BENEFICIOS
+    </mat-card-title><br>
+    <mat-card-content class="animated fadeIn">
+        <img mat-card-image src="../../../../assets/beneficios.png">
+    </mat-card-content>
+</mat-card>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true }"></ngx-loading>
